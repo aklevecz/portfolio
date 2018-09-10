@@ -9,6 +9,10 @@
         cursor:pointer;
     }
     @font-face {
+        font-family: Canterbury;
+        src: url('/fonts/Canterbury.ttf');
+        }
+    @font-face {
         font-family: Condor-Regular-Bold;
         src: url('/fonts/Condor-Bold.woff2');
         }
@@ -46,6 +50,7 @@
 <!-- <svg id="body" viewBox="0 150 1400 1208.876" xml:space="preserve">
     </svg> -->
 <div id="header_nav"></div>
+<div id="mob_nav"></div>
 <div id="body">
 
 </div>
@@ -60,6 +65,7 @@
 
 <script>
     console.log(window.location.pathname);
+    history.pushState({'state':'story'},'story','');
     var orientation;
     window.addEventListener("resize", mob_or_desk)
     mob_or_desk();
@@ -79,6 +85,18 @@
             }
         }
     }
+    function portfolio(){
+        // portfolio
+        $('#body').load('portfolio.html',function(){
+                        d3.select('#portfolio').attr('transform','translate(0,1000)')
+                        .transition().duration(2000).attr('transform','translate(0,0)')
+                        .on('end', function(){
+                            main();
+                        })
+                        
+                    });
+        history.pushState({'state':'story'},'story','');
+    }
     //desk
     function desk_story(){
             // story
@@ -89,13 +107,8 @@
     function desk(){
         $('#header_nav').load('header_nav.html', function(){
             
-        $('#story_2_').click(desk_story)
-        $('#short-portfolio_2_').click(function(){
-            // portfolio
-            $('#body').load('portfolio.html',function(){
-                main();
-            });
-        })
+        $('#story_2_').click(desk_story);
+        $('#short-portfolio_2_').click(portfolio);
         })
     }    
     
@@ -104,14 +117,56 @@
     function mob_story(){
         // story
         $("#body").load('story_mob.html');
+        
         history.pushState({'state':'story'},'story','');
     }
     function mob(){
         $('#header_nav').load('header_mob.html', function(){
-            $('#nav').click(function(){
-                alert('this is the naver')
-            })
+            $('#nav').click(mob_nav_click);
     })
+    }
+
+    function mob_nav_click(){
+        if (document.getElementById('mob_nav_svg')){
+            d3.select('#mob_nav').select('svg').transition().duration(2000).attr('viewBox','0 0 411 0')
+            .on('end',function(){
+            d3.select('#mob_nav').html('');
+            d3.select("#nav").selectAll('path')
+                            .transition().duration(2000).style('fill','black');
+            });
+            
+        } else{
+            pop_nav();
+        }
+
+        function pop_nav(){
+            var mob_nav_svg = d3.select('#mob_nav').append('svg')
+                .attr('height', '0px')
+                .transition().duration(2000)
+                .attr('height', '590px')
+                .attr('viewBox', '0 0 411 250')
+                .on('end', function(){
+
+                    
+
+                    $('#mob_nav').load('nav_pop.html', function(){
+                        d3.select('#nav').selectAll('path')
+                            .attr('fill','black')
+                            .transition().duration(2000)
+                            .attr('fill','red');
+                        d3.select("#mob_nav").selectAll('text').style('fill','white')
+                            .transition().duration(2000).style('fill','black');
+                        d3.select("#mob_nav").selectAll('path').style('fill','white')
+                            .transition().duration(2000).style('fill','black');
+                        
+                        $('#story_1_').click(mob_story);
+                        $("#short-portfolio_1_").click(portfolio);
+
+                    })
+
+                })
+        }
+        
     }
 
 
