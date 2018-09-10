@@ -10,7 +10,7 @@
     }
     @font-face {
         font-family: Canterbury;
-        src: url('/fonts/Canterbury.ttf');
+        src: url('https://github.com/traysiMay/portfolio/blob/master/fonts/Canterbury.ttf');
         }
     @font-face {
         font-family: Condor-Regular-Bold;
@@ -52,7 +52,7 @@
 <div id="header_nav"></div>
 <div id="mob_nav"></div>
 <div id="body">
-
+<svg></svg>
 </div>
 </div>
 
@@ -70,9 +70,8 @@
     window.addEventListener("resize", mob_or_desk)
     mob_or_desk();
     function mob_or_desk(){
-        if (history.state){
-            var state = history.state.state;
-        }
+        var state = history.state.state;
+        
         if (window.innerWidth > window.innerHeight){
             desk();
             if (state==="story"){
@@ -87,24 +86,38 @@
     }
     function portfolio(){
         // portfolio
-        $('#body').load('portfolio.html',function(){
-                        d3.select('#portfolio').attr('transform','translate(0,1000)')
+        d3.select('#body').transition().duration(2000).select('svg').attr('transform','translate(0,1000)')
+            .on('end',function(){
+                $('#body').load('portfolio.html',function(){
+                        d3.select('#body').select('svg').attr('transform','translate(0,1000)')
                         .transition().duration(2000).attr('transform','translate(0,0)')
                         .on('end', function(){
                             main();
                         })
                         
                     });
-        history.pushState({'state':'story'},'story','');
+             history.pushState({'state':'portfolio'},'portfolio','');
+            })
+
+
     }
     //desk
     function desk_story(){
-            // story
-            $("#body").load('story.html');
-            history.pushState({'state':'story'},'story','');
+        // story
+
+        d3.select('#body').transition().duration(2000).select('svg').attr('transform','translate(0,1000)')
+            .on('end',function(){
+                $('#body').load('story.html',function(){
+                        d3.select('#body').select('svg').attr('transform','translate(0,1000)')
+                        .transition().duration(2000).attr('transform','translate(0,0)')
+                        
+                    });
+                    history.pushState({'state':'story'},'story','');
+            })
     }
     // header_nav
     function desk(){
+        $('#mob_nav').html('');
         $('#header_nav').load('header_nav.html', function(){
             
         $('#story_2_').click(desk_story);
@@ -116,9 +129,19 @@
     //mob
     function mob_story(){
         // story
-        $("#body").load('story_mob.html');
+        d3.select('#body').transition().duration(2000).select('svg').attr('transform','translate(0,1000)')
+            .on('end',function(){
+                $('#body').load('story_mob.html',function(){
+                        d3.select('#body').select('svg').attr('transform','translate(0,1000)')
+                        .transition().duration(2000).attr('transform','translate(0,0)')
+                        .on('end', function(){
+                            main();
+                        })
+                        
+                    });
+                    history.pushState({'state':'story'},'story','');
+            })
         
-        history.pushState({'state':'story'},'story','');
     }
     function mob(){
         $('#header_nav').load('header_mob.html', function(){
