@@ -115,12 +115,16 @@
     //desk
     function desk_story(){
         // story
-        d3.select('#story_2_').select('.underline').selectAll('path')
-                .transition().duration(1000)
-                .style('fill','red');
+        
         d3.select('#body').transition().duration(2000).select('svg').style('opacity','0')
             .on('end',function(){
                 $('#body').load('story.html',function(){
+
+                    // janky init
+                    d3.select('#story_2_').select('.underline').selectAll('path')
+                        .transition().duration(1000)
+                        .style('fill','red');
+
                         d3.select('#body').select('svg').style('opacity','0')
                         .transition().duration(2000).style('opacity','1')
                         
@@ -298,9 +302,33 @@
                 .on('end', function(){
 
                     
+                    function underliner(state){
+                        if (state==='story'){
+                            d3.select('#story_1_').select('.underline').selectAll('path')
+                            .transition().duration(1000)
+                            .style('fill','red');
+                        }
 
+                        if (state==='portfolio'){
+                            d3.select('#short-portfolio_1_').select('.underline').selectAll('path')
+                            .transition().duration(1000)
+                            .style('fill','red');
+                        }
+
+                        if (state==='community'){
+                            d3.select('#community_1_').select('.underline').selectAll('path')
+                            .transition().duration(1000)
+                            .style('fill','red');
+                        }
+
+                        if(state==='contact'){
+                            d3.select('#contact').select('.underline').selectAll('path')
+                            .transition().duration(1000)
+                            .style('fill','red');
+                        }
+                    }
                     $('#mob_nav').load('nav_pop.html', function(){
-                        console.log('open');
+
                         d3.select('#nav').selectAll('path')
                             .transition().duration(2000)
                             .style('fill','red');
@@ -308,34 +336,32 @@
                             .transition().duration(2000).style('fill','black');
                         d3.select("#mob_nav").selectAll('path').style('fill','white')
                             .transition().duration(2000).style('fill','black');
-                        
+
+                        underliner(history.state.state);
+
                         $('#story_1_').click(function(){
                             unline();
-                            d3.select('#story_1_').select('.underline').selectAll('path')
-                            .transition().duration(1000)
-                            .style('fill','red');
                             mob_story();
+                            history.pushState({'state':'story'},'story','');
+                            underliner(history.state.state);
                         });
                         $("#short-portfolio_1_").click(function(){
                             unline();
-                            d3.select('#short-portfolio_1_').select('.underline').selectAll('path')
-                            .transition().duration(1000)
-                            .style('fill','red');
-                            portfolio();
+                            portfolio()
+                            history.pushState({'state':'portfolio'},'portfolio','');
+                            underliner(history.state.state);
                         });
                         $('#community_1_').click(function(){
                             unline();
-                            d3.select('#community_1_').select('.underline').selectAll('path')
-                            .transition().duration(1000)
-                            .style('fill','red');
                             mob_community();
+                            history.pushState({'state':'community'},'community','');
+                            underliner(history.state.state);
                         });
                         $('#contact').click(function(){
                             unline();
-                            d3.select('#contact').select('.underline').selectAll('path')
-                            .transition().duration(1000)
-                            .style('fill','red');
                             desk_contact();
+                            history.pushState({'state':'contact'},'contact','');
+                            underliner(history.state.state);
                         });
 
                     })
