@@ -8,8 +8,12 @@
     .button{
         cursor:pointer;
     }
+    @font-face{
+        font-family: Times-Roman;
+        src: url('./fonts/LiberationSerif-Regular.ttf');
+    }
     @font-face {
-        font-family: Canterbury;
+        font-family: Canterbury-Regular;
         src: url('./fonts/Canterbury.ttf');
         }
     @font-face {
@@ -66,6 +70,7 @@
 <script>
     console.log(window.location.pathname);
     history.pushState({'state':'story'},'story','');
+    
     var orientation;
     window.addEventListener("resize", mob_or_desk)
     mob_or_desk();
@@ -77,20 +82,26 @@
             if (state==="story"){
                 desk_story();
             }
+            if (state==="community"){
+                desk_community();
+            }
         } else {
             mob();
             if (state==="story"){
                 mob_story();
             }
+            if (state==="community"){
+                mob_community();
+            }
         }
     }
     function portfolio(){
         // portfolio
-        d3.select('#body').transition().duration(2000).select('svg').attr('transform','translate(0,1000)')
+        d3.select('#body').transition().duration(2000).select('svg').style('opacity','0')
             .on('end',function(){
                 $('#body').load('portfolio.html',function(){
-                        d3.select('#body').select('svg').attr('transform','translate(0,1000)')
-                        .transition().duration(2000).attr('transform','translate(0,0)')
+                        d3.select('#body').select('svg').style('opacity','0')
+                        .transition().duration(2000).style('opacity','1')
                         .on('end', function(){
                             main();
                         })
@@ -104,24 +115,105 @@
     //desk
     function desk_story(){
         // story
-
-        d3.select('#body').transition().duration(2000).select('svg').attr('transform','translate(0,1000)')
+        d3.select('#story_2_').select('.underline').selectAll('path')
+                .transition().duration(1000)
+                .style('fill','red');
+        d3.select('#body').transition().duration(2000).select('svg').style('opacity','0')
             .on('end',function(){
                 $('#body').load('story.html',function(){
-                        d3.select('#body').select('svg').attr('transform','translate(0,1000)')
-                        .transition().duration(2000).attr('transform','translate(0,0)')
+                        d3.select('#body').select('svg').style('opacity','0')
+                        .transition().duration(2000).style('opacity','1')
                         
                     });
                     history.pushState({'state':'story'},'story','');
+            })
+    }
+    function desk_community(){
+        d3.select('#body').transition().duration(2000).select('svg').style('opacity','0')
+            .on('end',function(){
+                $('#body').load('community.html',function(){
+                        d3.select('#body').select('svg').style('opacity','0')
+                        .transition().duration(2000).style('opacity','1')
+                        
+                    });
+                    history.pushState({'state':'community'},'community','');
+            })
+    }
+    function desk_contact(){
+        d3.select('#body').transition().duration(2000).select('svg').style('opacity','0')
+            .on('end',function(){
+                $('#body').load('contact.html',function(){
+                        d3.select('#body').select('svg').style('opacity','0')
+                        .transition().duration(2000).style('opacity','1')
+                        
+                    });
+                    history.pushState({'state':'contact'},'contact','');
             })
     }
     // header_nav
     function desk(){
         $('#mob_nav').html('');
         $('#header_nav').load('header_nav.html', function(){
+
+            $('#story_2_').click(function(){
+                unline();
+                d3.select('#story_2_').select('.underline').selectAll('path')
+                .transition().duration(1000)
+                .style('fill','red');
+                desk_story();
+            });
+
+            $('#short-portfolio_2_').click(function(){
+                unline();
+                d3.select('#short-portfolio_2_').select('.underline').selectAll('path')
+                .transition().duration(1000)
+                .style('fill','red');
+                portfolio();
+            });
+
+            $('#community_2_').click(function(){
+                unline();
+                d3.select('#community_2_').select('.underline').selectAll('path')
+                .transition().duration(1000)
+                .style('fill','red');
+                desk_community();
+            });
             
-        $('#story_2_').click(desk_story);
-        $('#short-portfolio_2_').click(portfolio);
+            $('#contact').click(function(){
+                unline();
+                d3.select('#contact').select('.underline').selectAll('path')
+                .transition().duration(1000)
+                .style('fill','red');
+                desk_contact();
+            });
+
+            d3.select('#story_2_').select('text').on('mouseover', function(){
+                d3.select(this).transition().duration(2000).style('fill', '#EE2557');
+            })
+            .on('mouseout', function(){
+                d3.select(this).transition().duration(2000).style('fill', 'black');
+            })
+
+            d3.select('#short-portfolio_2_').select('text').on('mouseover', function(){
+                d3.select(this).transition().duration(2000).style('fill', '#EE2557');
+            })
+            .on('mouseout', function(){
+                d3.select(this).transition().duration(2000).style('fill', 'black');
+            })
+            d3.select('#community_2_').select('text').on('mouseover', function(){
+                d3.select(this).transition().duration(2000).style('fill', '#EE2557');
+            })
+            .on('mouseout', function(){
+                d3.select(this).transition().duration(2000).style('fill', 'black');
+            })
+
+            d3.select('#contact').select('text').on('mouseover', function(){
+                d3.select(this).transition().duration(2000).style('fill', '#EE2557');
+            })
+            .on('mouseout', function(){
+                d3.select(this).transition().duration(2000).style('fill', 'black');
+            })
+
         })
     }    
     
@@ -129,17 +221,51 @@
     //mob
     function mob_story(){
         // story
-        d3.select('#body').transition().duration(2000).select('svg').attr('transform','translate(0,1000)')
+        d3.select('#body').transition().duration(2000).select('svg').style('opacity','0')
             .on('end',function(){
                 $('#body').load('story_mob.html',function(){
-                        d3.select('#body').select('svg').attr('transform','translate(0,1000)')
-                        .transition().duration(2000).attr('transform','translate(0,0)')
+                        d3.select('#body').select('svg').style('opacity','0')
+                        .transition().duration(2000).style('opacity','1')
                         .on('end', function(){
                             main();
                         })
                         
                     });
                     history.pushState({'state':'story'},'story','');
+            })
+        
+    }
+
+    function mob_community(){
+        // story
+        d3.select('#body').transition().duration(2000).select('svg').style('opacity','0')
+            .on('end',function(){
+                $('#body').load('community_mob.html',function(){
+                        d3.select('#body').select('svg').style('opacity','0')
+                        .transition().duration(2000).style('opacity','1')
+                        .on('end', function(){
+                            main();
+                        })
+                        
+                    });
+                    history.pushState({'state':'community'},'community','');
+            })
+        
+    }
+
+        function mob_contact(){
+        // story
+        d3.select('#body').transition().duration(2000).select('svg').style('opacity','0')
+            .on('end',function(){
+                $('#body').load('contact_mob.html',function(){
+                        d3.select('#body').select('svg').style('opacity','0')
+                        .transition().duration(2000).style('opacity','1')
+                        .on('end', function(){
+                            main();
+                        })
+                        
+                    });
+                    history.pushState({'state':'contact'},'contact','');
             })
         
     }
@@ -151,6 +277,7 @@
 
     function mob_nav_click(){
         if (document.getElementById('mob_nav_svg')){
+            console.log('close')
             d3.select('#mob_nav').select('svg').transition().duration(2000).attr('viewBox','0 0 411 0')
             .on('end',function(){
             d3.select('#mob_nav').html('');
@@ -173,17 +300,43 @@
                     
 
                     $('#mob_nav').load('nav_pop.html', function(){
+                        console.log('open');
                         d3.select('#nav').selectAll('path')
-                            .attr('fill','black')
                             .transition().duration(2000)
-                            .attr('fill','red');
+                            .style('fill','red');
                         d3.select("#mob_nav").selectAll('text').style('fill','white')
                             .transition().duration(2000).style('fill','black');
                         d3.select("#mob_nav").selectAll('path').style('fill','white')
                             .transition().duration(2000).style('fill','black');
                         
-                        $('#story_1_').click(mob_story);
-                        $("#short-portfolio_1_").click(portfolio);
+                        $('#story_1_').click(function(){
+                            unline();
+                            d3.select('#story_1_').select('.underline').selectAll('path')
+                            .transition().duration(1000)
+                            .style('fill','red');
+                            mob_story();
+                        });
+                        $("#short-portfolio_1_").click(function(){
+                            unline();
+                            d3.select('#short-portfolio_1_').select('.underline').selectAll('path')
+                            .transition().duration(1000)
+                            .style('fill','red');
+                            portfolio();
+                        });
+                        $('#community_1_').click(function(){
+                            unline();
+                            d3.select('#community_1_').select('.underline').selectAll('path')
+                            .transition().duration(1000)
+                            .style('fill','red');
+                            mob_community();
+                        });
+                        $('#contact').click(function(){
+                            unline();
+                            d3.select('#contact').select('.underline').selectAll('path')
+                            .transition().duration(1000)
+                            .style('fill','red');
+                            desk_contact();
+                        });
 
                     })
 
@@ -192,6 +345,11 @@
         
     }
 
+function unline(){
+    d3.selectAll('.underline').selectAll('path')
+    .transition().duration(1000)
+    .style('fill','black');
+}
 
 
 </script>
