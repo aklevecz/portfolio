@@ -3,9 +3,9 @@ var svg = d3.select('svg');
 
 function main(){
 document.getElementById('API_x5F_link').onclick = function(){window.open('https://aklevecz.github.io/api_onepage')};
-document.getElementById('rweekly_x5F_link').onclick = function(){window.open('http://420.raptor.pizza/raptorweekly')};
-document.getElementById('ow_x5F_link').onclick = function(){window.open('http://hathor.nekhen.net')};
-document.getElementById('jt_x5F_link').onclick = function(){window.open('http://420.raptor.pizza/talaraptor')};
+// document.getElementById('rweekly_x5F_link').onclick = function(){window.open('http://420.raptor.pizza/raptorweekly')};
+document.getElementById('ow_x5F_link').onclick = function(){window.open('https://lostminiticky.com/home')};
+document.getElementById('jt_x5F_link').onclick = function(){window.open('https://www.facebook.com/groups/concertraptor/')};
 //talabot
 var talacircle = d3.select('#talacircle');
 talacirclebounce();
@@ -47,26 +47,27 @@ lil_raptor.select('circle').transition().duration(2000).attr('fill', chroma.rand
 //hiq
 var changeBub = d3.select('#changeBub');
 var text_html = '<text transform="matrix(1 0 0 1 124.0103 269.9697)" fill="#E5438D" font-family="CourierNewPSMT" font-size="12">Ariel</text><text transform="matrix(1 0 0 1 88.0044 288.3257)"><tspan x="0" y="0" fill="#FFFFFF" font-family="CourierNewPSMT" font-size="12">Web Development</tspan><tspan x="-3.601" y="14.4" fill="#FFFFFF" font-family="CourierNewPSMT" font-size="12">Data Integration</tspan><tspan x="32.405" y="28.8" fill="#FFFFFF" font-family="CourierNewPSMT" font-size="12">Design</tspan></text>'
-changeBub.append('g').attr('id','info').attr('opacity',0).html(text_html);
+changeBub.append('g').attr('id','info').attr('transform', 'translate(2,-170)').attr('opacity',0).html(text_html);
 changeforward();
 function changeforward() {
 changeBub.select('text').transition().duration(2000).attr('opacity', 0);
 changeBub.select('circle').transition().duration(2000)
 .attr('r', "93.41")
-.attr('cx', "142.013")
-.attr('cy', "287.315")
-.attr('fill', 'black')
+// .attr('cx', "142.013")
+// .attr('cy', "227.315")
+.style('fill', 'black')
 .on('end', function(){
+    console.log('end')
 d3.select('#info').transition().duration(2000).attr('opacity', 1);
 setTimeout(changeback, 2000)
 });
 }
 function changeback(){
 changeBub.select('circle').transition().duration(2000)
-.attr('cx', '142.012')
-.attr('cy', '287.314')
+// .attr('cx', '142.012')
+// .attr('cy', '227.314')
 .attr('r', '31.914')
-.attr('fill', '#E5438D');
+.style('fill', '#E5438D');
 changeBub.select('text').transition().duration(2000).attr('opacity', 1);
 d3.select('#info').transition().duration(2000).attr('opacity', 0)
 .on('end', changeforward);

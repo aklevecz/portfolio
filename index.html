@@ -82,13 +82,32 @@
 <script>
     console.log(window.location.pathname);
     history.pushState({'state':'story'},'story','');
-    
+    let currentWidth = window.innerWidth;
     var orientation;
     window.addEventListener("resize", mob_or_desk)
-    mob_or_desk();
+    var state = history.state.state;
+    if (window.innerWidth > window.innerHeight){
+            desk();
+            if (state==="story"){
+                desk_story();
+            }
+            if (state==="community"){
+                desk_community();
+            }
+        } else {
+            mob();
+            if (state==="story"){
+                mob_story();
+            }
+            if (state==="community"){
+                mob_community();
+            }
+        }
     function mob_or_desk(){
         var state = history.state.state;
-        
+        if (currentWidth === window.innerWidth){
+            return;
+        }
         if (window.innerWidth > window.innerHeight){
             desk();
             if (state==="story"){
@@ -111,7 +130,7 @@
         // portfolio
         d3.select('#body').transition().duration(2000).select('svg').style('opacity','0')
             .on('end',function(){
-                $('#body').load('portfolio.html',function(){
+                $('#body').load('portfolio4.html',function(){
                         d3.select('#body').select('svg').style('opacity','0')
                         .transition().duration(2000).style('opacity','1')
                         .on('end', function(){
